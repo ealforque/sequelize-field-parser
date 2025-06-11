@@ -3,8 +3,12 @@
     "target": "ESNext",
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": ".",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "emitDeclarationOnly": false,
     "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
@@ -12,11 +16,10 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-
     "strict": true,
     "alwaysStrict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*", "tests/**/*"],
-  "exclude": ["node_modules", "coverage", "dist"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "coverage", "dist", "tests"]
 }
