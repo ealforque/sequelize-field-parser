@@ -196,7 +196,7 @@ jobs:
 
       - name: Mark Linting codebase Success
         if: success()
-        run: echo "LINTING_CODEBASE_STATUS=🎉 Success" >> $GITHUB_ENV && echo "BUILDING_CODEBASE_STATUS=🚀 Executing.." >> $GITHUB_ENV
+        run: echo "LINTING_CODEBASE_STATUS=🎉 Success" >> $GITHUB_ENV && echo "EXECUTING_JEST_STATUS=🚀 Executing.." >> $GITHUB_ENV
 
       - name: Mark Linting codebase Failure
         if: failure()
@@ -258,7 +258,7 @@ jobs:
 
       - name: Mark Executing Jest Success
         if: success()
-        run: echo "EXECUTING_JEST_STATUS=🎉 Success" >> $GITHUB_ENV
+        run: echo "EXECUTING_JEST_STATUS=🎉 Success" >> $GITHUB_ENV && echo "BUILDING_CODEBASE_STATUS=🚀 Executing.." >> $GITHUB_ENV
 
       - name: Mark Executing Jest Failure
         if: failure()
@@ -314,12 +314,14 @@ jobs:
 
       - name: Building codebase
         run: | 
-          npm run build --workspace=packages/sequelize-field-parser
-          npm pack --workspace=packages/sequelize-field-parser
+          npm run build
+          npm pack
+          ls -lh *.tgz
+          
 
       - name: Mark Building codebase Success
         if: success()
-        run: echo "BUILDING_CODEBASE_STATUS=🎉 Success" >> $GITHUB_ENV && echo "EXECUTING_JEST_STATUS=🚀 Executing.." >> $GITHUB_ENV
+        run: echo "BUILDING_CODEBASE_STATUS=🎉 Success" >> $GITHUB_ENV
 
       - name: Mark Building codebase Failure
         if: failure()
@@ -384,7 +386,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
           files: |
-            sequelize-field-parser-*.tgz
+            *.tgz
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
 

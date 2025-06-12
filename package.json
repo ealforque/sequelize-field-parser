@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "dist/field_parser.service.js",
   "types": "dist/field_parser.service.d.ts",
+  "files": ["dist"],
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "jest --clearCache && jest --coverage --detectOpenHandles",
