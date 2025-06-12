@@ -9,11 +9,13 @@ jobs:
   build-and-release:
     env:
       SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      GH_PACKAGE_RELEASE_TOKEN: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
       SETTING_UP_NODE_JS_STATUS: "🚀 Executing.."
       INSTALLING_DEPENDENCIES_STATUS: "📌 Not Executed"
       LINTING_CODEBASE_STATUS: "📌 Not Executed"
       EXECUTING_JEST_STATUS: "📌 Not Executed"
       BUILDING_CODEBASE_STATUS: "📌 Not Executed"
+      PUBLISHING_GITHUB_PACKAGE: "📌 Not Executed"
       CREATING_GITHUB_RELEASE: "📌 Not Executed"
     runs-on: ubuntu-latest
 
@@ -59,6 +61,10 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
@@ -122,6 +128,10 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -179,6 +189,10 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
@@ -243,6 +257,10 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -273,7 +291,7 @@ jobs:
           payload: |
             {
               "blocks": [
-                { "type": "section", "text": { "type": "plain_text", "emoji": true, "text": "Auth Service API CI/CD Pipeline" }},
+                { "type": "section", "text": { "type": "plain_text", "emoji": true, "text": "Sequelize Field Parser Package CI/CID Pipeline" }},
                 { "type": "divider" },
                 {
                   "type": "section",
@@ -305,6 +323,10 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -313,11 +335,7 @@ jobs:
             }
 
       - name: Building codebase
-        run: | 
-          npm run build
-          npm pack
-          ls -lh *.tgz
-          
+        run: npm run build
 
       - name: Mark Building codebase Success
         if: success()
@@ -326,6 +344,76 @@ jobs:
       - name: Mark Building codebase Failure
         if: failure()
         run: echo "BUILDING_CODEBASE_STATUS=🚫 Failed" >> $GITHUB_ENV
+
+      - name: Mark Creating GitHub release Executing
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        run: echo "PUBLISHING_GITHUB_PACKAGE=🚀 Executing.." >> $GITHUB_ENV
+
+      - name: Update notification
+        if: always()
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          update-ts: ${{ steps.cicd-pipeline-notification.outputs.ts }}
+          payload: |
+            {
+              "blocks": [
+                { "type": "section", "text": { "type": "plain_text", "emoji": true, "text": "Sequelize Field Parser Package CI/CID Pipeline" }},
+                { "type": "divider" },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.event.head_commit.message }}>\n*Branch*: ${{ github.ref_name }}\n*Trigger Event*: ${{ github.event_name }}\n*Triggered By*: ${{ github.actor }}"
+                  },
+                  "accessory": { "type": "image", "image_url": "https://img.icons8.com/?size=100&id=wh2djijxoGnG&format=png&color=000000", "alt_text": "deployment" }
+                },
+                { "type": "divider" },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Setting up Nodejs*\nDownloading and caching Node.js and adding it to the PATH" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.SETTING_UP_NODE_JS_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Installing Dependencies*\nExecuting a clean install of dependencies from package lock file" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.INSTALLING_DEPENDENCIES_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing ESLint*\nRunning ESLint and capturing its output summary" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.LINTING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { "type": "divider" }
+              ]
+            }
+
+      - name: Publishing GitHub package
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${{ env.GH_PACKAGE_RELEASE_TOKEN }}" > ~/.npmrc
+          npm publish
+
+      - name: Mark Publishing GitHub package Success
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        run: echo "PUBLISHING_GITHUB_PACKAGE=🎉 Success" >> $GITHUB_ENV
+
+      - name: Mark Publishing GitHub package Failure
+        if: failure() && startsWith(github.ref, 'refs/tags/')
+        run: echo "PUBLISHING_GITHUB_PACKAGE=🚫 Failed" >> $GITHUB_ENV
 
       - name: Mark Creating GitHub release Executing
         if: success() && startsWith(github.ref, 'refs/tags/')
@@ -372,6 +460,10 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -385,10 +477,8 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
-          files: |
-            *.tgz
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
+          GITHUB_TOKEN: ${{ env.GH_PACKAGE_RELEASE_TOKEN }}
 
       - name: Mark Creating GitHub release Success
         if: success() && startsWith(github.ref, 'refs/tags/')
@@ -437,6 +527,10 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
+                },
+                { 
+                  "type": "section", "text": { "type": "mrkdwn", "text": "*Packaging*\nPublishing package to GitHub Packages" },
+                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.PUBLISHING_GITHUB_PACKAGE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },

@@ -1,15 +1,24 @@
 {
-  "name": "sequelize-field-parser",
+  "name": "@ealforque/sequelize-field-parser",
   "version": "1.0.0",
   "main": "dist/field_parser.service.js",
   "types": "dist/field_parser.service.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "jest --clearCache && jest --coverage --detectOpenHandles",
     "format": "prettier --write .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ealforque/sequelize-field-parser.git"
   },
   "dependencies": {
     "sequelize": "^6.0.0"
