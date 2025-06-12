@@ -382,7 +382,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           generate_release_notes: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PACKAGE_RELEASE_TOKEN }}
 
       - name: Mark Creating GitHub release Success
         if: success() && startsWith(github.ref, 'refs/tags/')

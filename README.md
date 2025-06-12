@@ -4,15 +4,15 @@
 
 > Node Typescript  
 > Sequelize (MySQL)  
-> GitHub Action  
+> GitHub Action
 
 ## Design Patterns
 
-> Test Driven Development  
+> Test Driven Development
 
 ## Integrations
 
-> Slack  
+> Slack
 
 ## Setup
 
@@ -34,7 +34,7 @@
 > `npm run format`  
 > `npm run lint`  
 > `npm run lint:fix` _(to fix linting errors)_  
-> `npm run test` _(executes all test with code coverage)_  
+> `npm run test` _(executes all test with code coverage)_
 
 > **when making a tag to release:**  
 > `npm run format`  
@@ -45,4 +45,4 @@
 > `git add dist/ -f` _(pushes dist folder to git)_  
 > `git commit -m "Release v1.0.0"` _(commit message format)_  
 > `git tag v1.0.0` _(tag)_  
-> `git push origin master --tags` _(push tags to master)_  
+> `git push origin master --tags` _(push tags to master)_
