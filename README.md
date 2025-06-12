@@ -2,17 +2,17 @@
 
 ## Tech Stack
 
-> Node Typescript
-> Sequelize (MySQL)
-> GitHub Action
+> Node Typescript  
+> Sequelize (MySQL)  
+> GitHub Action  
 
 ## Design Patterns
 
-> Test Driven Development
+> Test Driven Development  
 
 ## Integrations
 
-> Slack
+> Slack  
 
 ## Setup
 
