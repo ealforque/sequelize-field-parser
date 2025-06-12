@@ -43,8 +43,8 @@
 > `npm run test` _(executes all test with code coverage)_  
 > `npm run build` _(builds the package)_  
 > `git add .` _(pushes changes)_  
-> `git add dist/ -f` _(pushes dist folder to git)_  
 > `git commit -m "v1.0.0 (pre release)"` _(commit message format)_  
+> `git add dist/ -f` _(pushes dist folder to git)_  
 > `git commit -m "v1.0.0 (release)"` _(commit message format)_  
 > `git tag v1.0.0` _(tag)_  
 > `git push origin master --tags` _(push tags to master)_
