@@ -14,9 +14,6 @@ jobs:
       LINTING_CODEBASE_STATUS: "📌 Not Executed"
       BUILDING_CODEBASE_STATUS: "📌 Not Executed"
       EXECUTING_JEST_STATUS: "📌 Not Executed"
-      COMMUNICATING_DOCKER_STATUS: "📌 Not Executed"
-      EXTRACTING_DOCKER_METADATA_STATUS: "📌 Not Executed"
-      BUILDING_PUSHING_DOCKER_STATUS: "📌 Not Executed"
       CREATING_GITHUB_RELEASE: "📌 Not Executed"
     runs-on: ubuntu-latest
 
@@ -62,18 +59,6 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
@@ -137,18 +122,6 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -206,18 +179,6 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
@@ -282,18 +243,6 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -353,18 +302,6 @@ jobs:
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
@@ -386,9 +323,9 @@ jobs:
         if: failure()
         run: echo "EXECUTING_JEST_STATUS=🚫 Failed" >> $GITHUB_ENV
 
-      - name: Mark Communicating Docker Executing
-        if: success() && github.ref_name == 'master'
-        run: echo "COMMUNICATING_DOCKER_STATUS=🚀 Executing.." >> $GITHUB_ENV
+      - name: Mark Creating GitHub release Executing
+        if: success() && startsWith(github.ref, 'refs/tags/')
+        run: echo "CREATING_GITHUB_RELEASE=🚀 Executing.." >> $GITHUB_ENV
 
       - name: Update notification
         if: always()
@@ -429,249 +366,6 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { "type": "divider" }
-              ]
-            }
-      - name: Communicating docker
-        if: github.ref_name == 'master'
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Mark Communicating docker Success
-        if: success() && github.ref_name == 'master'
-        run: echo "COMMUNICATING_DOCKER_STATUS=🎉 Success" >> $GITHUB_ENV && echo "EXTRACTING_DOCKER_METADATA_STATUS=🚀 Executing.." >> $GITHUB_ENV
-
-      - name: Mark Communicating docker Failure
-        if: failure() && github.ref_name == 'master'
-        run: echo "COMMUNICATING_DOCKER_STATUS=🚫 Failed" >> $GITHUB_ENV
-
-      - name: Update notification
-        if: always() && github.ref_name == 'master'
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          update-ts: ${{ steps.cicd-pipeline-notification.outputs.ts }}
-          payload: |
-            {
-              "blocks": [
-                { "type": "section", "text": { "type": "plain_text", "emoji": true, "text": "Auth Service API CI/CD Pipeline" }},
-                { "type": "divider" },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.event.head_commit.message }}>\n*Branch*: ${{ github.ref_name }}\n*Trigger Event*: ${{ github.event_name }}\n*Triggered By*: ${{ github.actor }}"
-                  },
-                  "accessory": { "type": "image", "image_url": "https://img.icons8.com/?size=100&id=wh2djijxoGnG&format=png&color=000000", "alt_text": "deployment" }
-                },
-                { "type": "divider" },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Setting up Nodejs*\nDownloading and caching Node.js and adding it to the PATH" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.SETTING_UP_NODE_JS_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Installing Dependencies*\nExecuting a clean install of dependencies from package lock file" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.INSTALLING_DEPENDENCIES_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing ESLint*\nRunning ESLint and capturing its output summary" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.LINTING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { "type": "divider" }
-              ]
-            }
-
-      - name: Extract docker metadata
-        if: github.ref_name == 'master'
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: ealforque/auth-service-api
-
-      - name: Mark Extract docker metadata Success
-        if: success() && github.ref_name == 'master'
-        run: echo "EXTRACTING_DOCKER_METADATA_STATUS=🎉 Success" >> $GITHUB_ENV && echo "BUILDING_PUSHING_DOCKER_STATUS=🚀 Executing.." >> $GITHUB_ENV
-
-      - name: Mark Extract docker metadata Failure
-        if: failure() && github.ref_name == 'master'
-        run: echo "EXTRACTING_DOCKER_METADATA_STATUS=🚫 Failed" >> $GITHUB_ENV
-
-      - name: Update notification
-        if: always() && github.ref_name == 'master'
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          update-ts: ${{ steps.cicd-pipeline-notification.outputs.ts }}
-          payload: |
-            {
-              "blocks": [
-                { "type": "section", "text": { "type": "plain_text", "emoji": true, "text": "Auth Service API CI/CD Pipeline" }},
-                { "type": "divider" },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.event.head_commit.message }}>\n*Branch*: ${{ github.ref_name }}\n*Trigger Event*: ${{ github.event_name }}\n*Triggered By*: ${{ github.actor }}"
-                  },
-                  "accessory": { "type": "image", "image_url": "https://img.icons8.com/?size=100&id=wh2djijxoGnG&format=png&color=000000", "alt_text": "deployment" }
-                },
-                { "type": "divider" },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Setting up Nodejs*\nDownloading and caching Node.js and adding it to the PATH" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.SETTING_UP_NODE_JS_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Installing Dependencies*\nExecuting a clean install of dependencies from package lock file" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.INSTALLING_DEPENDENCIES_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing ESLint*\nRunning ESLint and capturing its output summary" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.LINTING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.CREATING_GITHUB_RELEASE }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { "type": "divider" }
-              ]
-            }
-
-      - name: Building and pushing image
-        if: github.ref_name == 'master'
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          file: ./docker/Dockerfile
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Mark Building and pushing image Success
-        if: success() && github.ref_name == 'master'
-        run: echo "BUILDING_PUSHING_DOCKER_STATUS=🎉 Success" >> $GITHUB_ENV && echo "CREATING_GITHUB_RELEASE=🚀 Executing.." >> $GITHUB_ENV
-
-      - name: Mark Building and pushing image Failure
-        if: failure() && github.ref_name == 'master'
-        run: echo "BUILDING_PUSHING_DOCKER_STATUS=🚫 Failed" >> $GITHUB_ENV
-
-      - name: Mark Creating GitHub release Executing
-        if: success() && startsWith(github.ref, 'refs/tags/')
-        run: echo "CREATING_GITHUB_RELEASE=🚀 Executing.." >> $GITHUB_ENV
-
-      - name: Update notification
-        if: always() && github.ref_name == 'master'
-        uses: slackapi/slack-github-action@v1.23.0
-        with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          update-ts: ${{ steps.cicd-pipeline-notification.outputs.ts }}
-          payload: |
-            {
-              "blocks": [
-                { "type": "section", "text": { "type": "plain_text", "emoji": true, "text": "Auth Service API CI/CD Pipeline" }},
-                { "type": "divider" },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Commit*: <${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}|${{ github.event.head_commit.message }}>\n*Branch*: ${{ github.ref_name }}\n*Trigger Event*: ${{ github.event_name }}\n*Triggered By*: ${{ github.actor }}"
-                  },
-                  "accessory": { "type": "image", "image_url": "https://img.icons8.com/?size=100&id=wh2djijxoGnG&format=png&color=000000", "alt_text": "deployment" }
-                },
-                { "type": "divider" },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Setting up Nodejs*\nDownloading and caching Node.js and adding it to the PATH" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.SETTING_UP_NODE_JS_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Installing Dependencies*\nExecuting a clean install of dependencies from package lock file" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.INSTALLING_DEPENDENCIES_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing ESLint*\nRunning ESLint and capturing its output summary" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.LINTING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building Codebase*\nCompiling TypeScript and adding static assets to the build" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_CODEBASE_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
@@ -737,18 +431,6 @@ jobs:
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Executing Jest*\nExecuting test cases and capturing Jest output summary" },
                   "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXECUTING_JEST_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Communicating Docker*\nLogging GitHub Actions in to Docker registry" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.COMMUNICATING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Extracting Docker Metadata*\nGenerating tags and labels for the build and push action" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.EXTRACTING_DOCKER_METADATA_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
-                },
-                { 
-                  "type": "section", "text": { "type": "mrkdwn", "text": "*Building and Pushing Image*\nBuilding then pushing docker image to Docker Hub" },
-                  "accessory": { "type": "button", "text": { "type": "plain_text", "emoji": true, "text": "${{ env.BUILDING_PUSHING_DOCKER_STATUS }}"}, "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" }
                 },
                 { 
                   "type": "section", "text": { "type": "mrkdwn", "text": "*Release*\nCreating GitHub Release" },
