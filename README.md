@@ -1,7 +1,7 @@
 # Sequelize Field Parser Package
 
-![npm version](https://img.shields.io/npm/v/sequelize-field-parser)
-![build](https://img.shields.io/github/workflow/status/ealforque/sequelize-field-parser/CI)
+![npm version](https://img.shields.io/npm/v/@ealforque/sequelize-field-parser)
+![build](https://github.com/ealforque/sequelize-field-parser/actions/workflows/release.yaml/badge.svg)
 
 ## Description
 

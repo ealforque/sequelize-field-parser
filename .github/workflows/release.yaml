@@ -1,4 +1,4 @@
-name: Sequelize Field Parser Package CI/CD Pipeline
+name: CI
 
 on:
   push:
