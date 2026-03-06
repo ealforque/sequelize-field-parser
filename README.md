@@ -1,50 +1,62 @@
-# **Sequelize Field Parser Package**
+# Sequelize Field Parser Package
 
-## Tech Stack
+![npm version](https://img.shields.io/npm/v/sequelize-field-parser)
+![build](https://img.shields.io/github/workflow/status/ealforque/sequelize-field-parser/CI)
 
-> Node Typescript  
-> Sequelize (MySQL)  
-> GitHub Action
+## Description
 
-## Design Patterns
+A TypeScript utility for Sequelize models that lets users specify fields to include in queries and automatically builds the `include` parameter for Sequelize. It simplifies selecting fields and relationships, making complex query construction and model association management more efficient.
 
-> Test Driven Development
+## Features
 
-## Integrations
+- Parse Sequelize model fields and relationships
+- Generate field trees for complex models
+- Type-safe interfaces and types
+- Easy integration with MySQL via Sequelize
+- Test-driven development with Jest
 
-> Slack
+## Installation
 
-## Setup
+```bash
+npm install ealforque/sequelize-field-parser
+```
 
-> **step 1: Clone the repository:**  
-> `git clone `
+## Usage
 
-> **step 2: Install dependencies:**  
-> `npm install`
+Import and use in your project:
 
-> **step 3: Build the package:**  
-> `npm run build`
+```typescript
+import FieldParserService from "sequelize-field-parser";
+import Status from "./path/to/status.model";
 
-## Important:
+const parser = new FieldParserService();
 
-> **Before pushing to git, always create your own branch, format, lint, and test, then create a pull request for your changes:**  
-> `git checkout <branch>`  
-> `git pull origin <branch>`  
-> `git checkout -b <your-branch>`  
-> `npm run format`  
-> `npm run lint`  
-> `npm run lint:fix` _(to fix linting errors)_  
-> `npm run test` _(executes all test with code coverage)_
+// query parameter
+// api/resource?fields='status.uuid,status.name,status.category.uuid,status.category.name'
+const queryParams =
+  "status.uuid,status.name,status.category.uuid,status.category.name";
 
-> **when making a tag to release:**  
-> `npm run format`  
-> `npm run lint`  
-> `npm run lint:fix` _(to fix linting errors)_  
-> `npm run test` _(executes all test with code coverage)_  
-> `npm run build` _(builds the package)_  
-> `git add .` _(pushes changes)_  
-> `git commit -m "v1.0.0 (pre release)"` _(commit message format)_  
-> `git add dist/ -f` _(pushes dist folder to git)_  
-> `git commit -m "v1.0.0 (release)"` _(commit message format)_  
-> `git tag v1.0.0` _(tag)_  
-> `git push origin master --tags` _(push tags to master)_
+// Parse the query parameter
+const { columns, relationshipTree } = parser.parseFields(queryParams, Model);
+
+// Build the sequelize include
+const include = parser.buildSequelizeInclude(relationshipTree, Model);
+
+console.log(include);
+/* Example output:
+[
+  {
+    model: Status,
+    as: 'status',
+    attributes: ['uuid', 'name'],
+    include: [
+      {
+        model: Category,
+        as: 'category',
+        attributes: ['uuid', 'name'],
+      }
+    ]
+  }
+]
+*/
+```

@@ -14,11 +14,7 @@
     "lint:fix": "eslint . --fix"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ealforque/sequelize-field-parser.git"
+    "access": "public"
   },
   "dependencies": {
     "sequelize": "^6.0.0"
