@@ -9,15 +9,16 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 
 ## Features
 
-- Parse Sequelize model fields and relationships
-- Generate field trees for complex models
-- Type-safe interfaces and types
-- Easy integration with MySQL via Sequelize
-- Test-driven development with Jest
-- Handles maximum relationship depth (default: 10)
-- Detects and prevents circular relationships
-- Handles malformed input (empty, whitespace, consecutive dots, leading/trailing dots)
+- **Parse Sequelize model fields and relationships:** Easily extract and validate fields and associations from models
+- **Generate field trees for complex models:** Build nested relationship trees for Sequelize includes
+- **Type-safe interfaces and types:** All parsing and tree generation is type-safe
+- **Easy integration with MySQL via Sequelize:** Works seamlessly with Sequelize ORM
+- **Test-driven development with Jest:** Comprehensive test suite for robust behavior
+- **Handles maximum relationship depth (default: 10):** Prevents runaway includes and logs warnings
+- **Detects and prevents circular relationships:** Safely handles circular model associations
+- **Handles malformed input:** Catches empty, whitespace, consecutive dots, leading/trailing dots
 - **Deduplicates columns:** Duplicate fields in the input string will not result in duplicate entries in the `columns` array
+- **Model requirements:** Models must define static `DEFAULT_FIELDS` and `SELECTABLE_FIELDS` properties. If these are missing, no fields will be selectable and all user-specified fields may be reported as invalid.
 
 ## Installation
 
@@ -26,6 +27,8 @@ npm install @ealforque/sequelize-field-parser
 ```
 
 ## Usage
+
+> **Note:** Your Sequelize models must define static `DEFAULT_FIELDS` and `SELECTABLE_FIELDS` arrays. If these are missing, the parser will treat all user-specified fields as invalid and may return empty columns.
 
 Import and use in your project:
 

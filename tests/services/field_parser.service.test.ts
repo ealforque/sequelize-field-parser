@@ -352,6 +352,37 @@ describe("FieldParserService", () => {
       expect(result.columns.filter((c) => c === "uuid").length).toBe(1);
       expect(result.invalidFields.length).toBe(0);
     });
+
+    it("should handle models without DEFAULT_FIELDS or SELECTABLE_FIELDS", () => {
+      const mockModel = createMockModel({}); // No DEFAULT_FIELDS or SELECTABLE_FIELDS
+      const result = service.parseFields("name,created_at,uuid", mockModel);
+      expect(result.columns).toEqual([]); // No columns selectable
+      expect(result.invalidFields).toContain("name");
+      expect(result.invalidFields).toContain("created_at");
+      expect(result.invalidFields).toContain("uuid");
+      expect(result.invalidFields.length).toBe(3);
+      expect(result.relationshipTree).toEqual({});
+    });
+
+    it("should default to empty arrays if DEFAULT_FIELDS or SELECTABLE_FIELDS are not arrays", () => {
+      const mockModel1 = {
+        associations: {},
+        DEFAULT_FIELDS: undefined,
+        SELECTABLE_FIELDS: undefined,
+      } as any;
+      const result1 = service.parseFields("name,created_at,uuid", mockModel1);
+      expect(result1.columns).toEqual([]);
+      expect(result1.invalidFields).toEqual(["name", "created_at", "uuid"]);
+
+      const mockModel2 = {
+        associations: {},
+        DEFAULT_FIELDS: 123,
+        SELECTABLE_FIELDS: "not-an-array",
+      } as any;
+      const result2 = service.parseFields("name,created_at,uuid", mockModel2);
+      expect(result2.columns).toEqual([]);
+      expect(result2.invalidFields).toEqual(["name", "created_at", "uuid"]);
+    });
   });
 
   describe("buildSequelizeInclude()", () => {
@@ -530,6 +561,14 @@ describe("FieldParserService", () => {
       expect(warnMock).toHaveBeenCalledWith("Circular relationship detected.");
       expect(result[0].include).toEqual([]);
       console.warn = originalWarn;
+    });
+  });
+
+  describe("FieldParserService constructor", () => {
+    it("should initialize fields as an empty array", () => {
+      const instance = new FieldParserService();
+      // @ts-ignore: access private property for test coverage
+      expect(instance.fields).toEqual([]);
     });
   });
 });

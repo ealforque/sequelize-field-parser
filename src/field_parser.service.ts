@@ -20,8 +20,13 @@ class FieldParserService {
       .filter((f) => f.length > 0);
 
     const relationshipTree: RelationshipTree = {};
-    const columns: string[] = [...model.DEFAULT_FIELDS];
-    const selectableFields = model.SELECTABLE_FIELDS;
+    // Default to empty arrays if properties are missing
+    const columns: string[] = Array.isArray(model.DEFAULT_FIELDS)
+      ? [...model.DEFAULT_FIELDS]
+      : [];
+    const selectableFields = Array.isArray(model.SELECTABLE_FIELDS)
+      ? model.SELECTABLE_FIELDS
+      : [];
     const invalidFields: string[] = [];
 
     for (const field of this.fields) {
