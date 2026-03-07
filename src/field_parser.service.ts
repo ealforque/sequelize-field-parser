@@ -147,13 +147,22 @@ class FieldParserService {
         );
         const leafAttributes = Object.entries(nested)
           .filter(([, value]) => value === true)
-          .map(([key]) => key)
-          .filter((attr) => selectableFields.includes(attr));
+          .map(([key]) => key);
+
+        const filteredLeafAttributes = leafAttributes.filter((attr) => {
+          const isSelectable = selectableFields.includes(attr);
+          if (!isSelectable) {
+            console.warn(
+              `FieldParserService: Attribute '${attr}' in relationship '${relation}' is not in SELECTABLE_FIELDS and will be ignored.`,
+            );
+          }
+          return isSelectable;
+        });
 
         return {
           model: currentModel,
           as: relation,
-          attributes: leafAttributes,
+          attributes: filteredLeafAttributes,
           include: deeperIncludes,
         };
       },

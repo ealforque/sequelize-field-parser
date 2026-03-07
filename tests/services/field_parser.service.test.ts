@@ -581,6 +581,41 @@ describe("FieldParserService", () => {
       expect(result[0].include).toEqual([]);
       console.warn = originalWarn;
     });
+
+    it("should warn when leaf attributes are not in SELECTABLE_FIELDS", () => {
+      const mockModel = createMockModel({
+        associations: {
+          status: {
+            target: mockTargetModel(["name"]),
+          },
+        },
+      });
+      const tree = {
+        status: {
+          name: true,
+          invalid_field: true,
+        },
+      };
+      const originalWarn = console.warn;
+      const warnMock = jest.fn();
+      console.warn = warnMock;
+      const result = service.buildSequelizeInclude(
+        tree as RelationshipTree,
+        mockModel,
+      );
+      expect(result).toEqual([
+        {
+          model: expect.anything(),
+          as: "status",
+          attributes: ["name"],
+          include: [],
+        },
+      ]);
+      expect(warnMock).toHaveBeenCalledWith(
+        "FieldParserService: Attribute 'invalid_field' in relationship 'status' is not in SELECTABLE_FIELDS and will be ignored.",
+      );
+      console.warn = originalWarn;
+    });
   });
 
   describe("FieldParserService constructor", () => {

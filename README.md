@@ -138,3 +138,37 @@ console.log(result); // columns deduplicated
 }
 */
 ```
+
+### Relationship Leaf Attribute Filtering
+
+If a nested relationship contains attributes not in `SELECTABLE_FIELDS`, those attributes are filtered out and a warning is logged for each ignored attribute.
+
+```typescript
+const parser = new FieldParserService();
+const tree = {
+  status: {
+    name: true,
+    invalid_field: true,
+  },
+};
+const mockModel = {
+  associations: {
+    status: {
+      target: { SELECTABLE_FIELDS: ["name"] },
+    },
+  },
+};
+const result = parser.buildSequelizeInclude(tree, mockModel);
+console.log(result);
+/*
+Warning: FieldParserService: Attribute 'invalid_field' in relationship 'status' is not in SELECTABLE_FIELDS and will be ignored.
+[
+  {
+    model: { SELECTABLE_FIELDS: ["name"] },
+    as: "status",
+    attributes: ["name"],
+    include: [],
+  },
+]
+*/
+```
