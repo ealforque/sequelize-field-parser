@@ -9,3 +9,6 @@ updates:
     commit-message:
       prefix: "fix"
       include: "scope"
+    ignore:
+      - dependency-name: "eslint"
+        versions: ["10.x"]
