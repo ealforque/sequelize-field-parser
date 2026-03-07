@@ -383,6 +383,25 @@ describe("FieldParserService", () => {
       expect(result2.columns).toEqual([]);
       expect(result2.invalidFields).toEqual(["name", "created_at", "uuid"]);
     });
+
+    it("should handle non-model or incorrectly typed input gracefully", () => {
+      const result1 = service.parseFields("foo,bar", null as any);
+      expect(result1.columns).toEqual([]);
+      expect(result1.invalidFields).toEqual(["foo", "bar"]);
+      expect(result1.relationshipTree).toEqual({});
+
+      const result2 = service.parseFields("foo,bar", {} as any);
+      expect(result2.columns).toEqual([]);
+      expect(result2.invalidFields).toEqual(["foo", "bar"]);
+      expect(result2.relationshipTree).toEqual({});
+
+      const result3 = service.parseFields("foo,bar", {
+        associations: 123,
+      } as any);
+      expect(result3.columns).toEqual([]);
+      expect(result3.invalidFields).toEqual(["foo", "bar"]);
+      expect(result3.relationshipTree).toEqual({});
+    });
   });
 
   describe("buildSequelizeInclude()", () => {

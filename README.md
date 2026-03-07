@@ -19,6 +19,7 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 - **Handles malformed input:** Catches empty, whitespace, consecutive dots, leading/trailing dots
 - **Deduplicates columns:** Duplicate fields in the input string will not result in duplicate entries in the `columns` array
 - **Model requirements:** Models must define static `DEFAULT_FIELDS` and `SELECTABLE_FIELDS` properties. If these are missing, no fields will be selectable and all user-specified fields may be reported as invalid.
+- **Input requirements:** Only valid Sequelize model classes or objects with the required static properties should be passed. Passing a non-model or incorrectly typed object may result in type errors or runtime errors.
 
 ## Installation
 
@@ -29,6 +30,7 @@ npm install @ealforque/sequelize-field-parser
 ## Usage
 
 > **Note:** Your Sequelize models must define static `DEFAULT_FIELDS` and `SELECTABLE_FIELDS` arrays. If these are missing, the parser will treat all user-specified fields as invalid and may return empty columns.
+> **Warning:** Passing a non-Sequelize model or an incorrectly typed object may cause type errors or runtime errors. Always use valid Sequelize model classes.
 
 Import and use in your project:
 

@@ -14,20 +14,40 @@ class FieldParserService {
     fields: string,
     model: ModelStaticWithFields<M>,
   ) => {
+    if (
+      typeof model !== "object" ||
+      model === null ||
+      !("associations" in model) ||
+      typeof (model as any).associations !== "object"
+    ) {
+      console.warn(
+        "FieldParserService: Input is not a valid Sequelize model. Returning all fields as invalid.",
+      );
+      const inputFields = fields
+        .split(",")
+        .map((f) => f.trim())
+        .filter((f) => f.length > 0);
+      return {
+        columns: [],
+        relationshipTree: {},
+        invalidFields: inputFields,
+      };
+    }
+
     this.fields = fields
       .split(",")
       .map((f) => f.trim())
       .filter((f) => f.length > 0);
 
     const relationshipTree: RelationshipTree = {};
-    // Default to empty arrays if properties are missing
-    const columns: string[] = Array.isArray(model.DEFAULT_FIELDS)
-      ? [...model.DEFAULT_FIELDS]
-      : [];
-    const selectableFields = Array.isArray(model.SELECTABLE_FIELDS)
-      ? model.SELECTABLE_FIELDS
-      : [];
     const invalidFields: string[] = [];
+    const safeModel = model as ModelStaticWithFields<M>;
+    const columns: string[] = Array.isArray(safeModel.DEFAULT_FIELDS)
+      ? [...safeModel.DEFAULT_FIELDS]
+      : [];
+    const selectableFields = Array.isArray(safeModel.SELECTABLE_FIELDS)
+      ? safeModel.SELECTABLE_FIELDS
+      : [];
 
     for (const field of this.fields) {
       // Basic validation to catch empty fields, fields with only whitespace, and invalid dot usage
