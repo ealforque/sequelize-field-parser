@@ -18,7 +18,7 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 ## Installation
 
 ```bash
-npm install ealforque/sequelize-field-parser
+npm install @ealforque/sequelize-field-parser
 ```
 
 ## Usage
