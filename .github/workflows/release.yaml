@@ -26,15 +26,11 @@ jobs:
 
       - name: Linting codebase
         run: |
-          npm run lint > lint-output.txt
-          echo "### ESLint Summary" >> $GITHUB_STEP_SUMMARY
-          cat lint-output.txt | head -n 20 >> $GITHUB_STEP_SUMMARY
+          npm run lint
 
       - name: Executing Jest
         run: |
-          npm run test > test-output.txt
-          echo "### Jest Summary" >> $GITHUB_STEP_SUMMARY
-          cat test-output.txt | head -n 20 >> $GITHUB_STEP_SUMMARY
+          npm run test
 
       - name: Building codebase
         run: npm run build
