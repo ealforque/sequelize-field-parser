@@ -21,6 +21,9 @@ jobs:
       - name: Installing dependencies
         run: npm ci
 
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
+
       - name: Linting codebase
         run: |
           npm run lint > lint-output.txt

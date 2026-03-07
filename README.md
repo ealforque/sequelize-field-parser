@@ -2,6 +2,8 @@
 
 ![npm version](https://img.shields.io/npm/v/@ealforque/sequelize-field-parser)
 ![build](https://github.com/ealforque/sequelize-field-parser/actions/workflows/release.yaml/badge.svg)
+![license](https://img.shields.io/badge/license-MIT-green)
+[![Socket Badge](https://badge.socket.dev/npm/package/@ealforque/sequelize-field-parser)](https://badge.socket.dev/npm/package/@ealforque/sequelize-field-parser)
 
 ## Description
 
@@ -224,4 +226,15 @@ Warning: FieldParserService: Association alias 'profile' does not exist in model
   invalidFields: ["profile.email"]
 }
 */
+```
+
+## Supply Chain Security
+
+This package runs `npm audit` in its CI workflow to check for vulnerabilities in dependencies before publishing. Automated dependency updates and vulnerability checks are enabled for maximum supply chain security.
+
+Example GitHub Actions step:
+
+```yaml
+- name: Audit dependencies
+  run: npm audit --audit-level=high
 ```
