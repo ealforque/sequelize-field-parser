@@ -203,3 +203,25 @@ Warning: FieldParserService: No attributes selected and no DEFAULT_FIELDS availa
 ]
 */
 ```
+
+### Association Alias Mismatches
+
+If the association alias in the model does not match the field string, the relationship will not be included and a warning is logged.
+
+```typescript
+const parser = new FieldParserService();
+const mockModel = {
+  associations: {}, // No 'profile' association
+  SELECTABLE_FIELDS: ["id", "name"],
+};
+const result = parser.parseFields("profile.email", mockModel);
+console.log(result);
+/*
+Warning: FieldParserService: Association alias 'profile' does not exist in model 'unknown'. Field 'profile.email' will be treated as invalid.
+{
+  columns: [],
+  relationshipTree: {},
+  invalidFields: ["profile.email"]
+}
+*/
+```

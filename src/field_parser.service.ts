@@ -76,6 +76,9 @@ class FieldParserService {
           const seg = segments[i];
           if (i < segments.length - 1) {
             if (!currentModel.associations || !currentModel.associations[seg]) {
+              console.warn(
+                `FieldParserService: Association alias '${seg}' does not exist in model '${currentModel.name || "unknown"}'. Field '${field}' will be treated as invalid.`,
+              );
               valid = false;
               break;
             }

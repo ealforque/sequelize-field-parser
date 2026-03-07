@@ -402,6 +402,22 @@ describe("FieldParserService", () => {
       expect(result3.invalidFields).toEqual(["foo", "bar"]);
       expect(result3.relationshipTree).toEqual({});
     });
+
+    it("should warn when association alias does not exist in model", () => {
+      const mockModel = createMockModel({
+        associations: {}, // No 'profile' association
+        SELECTABLE_FIELDS: ["id", "name"],
+      });
+      const resultWarn = jest.fn();
+      const originalWarn = console.warn;
+      console.warn = resultWarn;
+      const result = service.parseFields("profile.email", mockModel);
+      expect(resultWarn).toHaveBeenCalledWith(
+        "FieldParserService: Association alias 'profile' does not exist in model 'unknown'. Field 'profile.email' will be treated as invalid.",
+      );
+      expect(result.invalidFields).toContain("profile.email");
+      console.warn = originalWarn;
+    });
   });
 
   describe("buildSequelizeInclude()", () => {
