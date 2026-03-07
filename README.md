@@ -26,24 +26,33 @@ npm install @ealforque/sequelize-field-parser
 Import and use in your project:
 
 ```typescript
-import FieldParserService from "sequelize-field-parser";
-import Status from "./path/to/status.model";
+import FieldParserService from "@ealforque/sequelize-field-parser";
+import Task from "./models/task.model"; // Example Sequelize model
 
 const parser = new FieldParserService();
 
-// query parameter
-// api/resource?fields='status.uuid,status.name,status.category.uuid,status.category.name'
-const queryParams =
-  "status.uuid,status.name,status.category.uuid,status.category.name";
+// Example query parameter from API
+const queryParams = "status.uuid,status.name,status.category.uuid,status.category.name";
 
-// Parse the query parameter
-const { columns, relationshipTree } = parser.parseFields(queryParams, Model);
+// Parse fields and build relationship tree
+const { columns, relationshipTree, invalidFields } = parser.parseFields(queryParams, Task);
 
-// Build the sequelize include
-const include = parser.buildSequelizeInclude(relationshipTree, Model);
+// Build the sequelize include array
+const include = parser.buildSequelizeInclude(relationshipTree, Task);
 
-console.log(include);
-/* Example output:
+// Log invalid fields (if any)
+if (invalidFields.length > 0) {
+  console.warn("Invalid fields:", invalidFields);
+}
+
+// Use in a Sequelize query
+const tasks = await Task.findAll({
+  attributes: columns,
+  include,
+});
+
+// Example output for include:
+/*
 [
   {
     model: Status,

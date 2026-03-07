@@ -22,6 +22,7 @@ class FieldParserService {
     const relationshipTree: RelationshipTree = {};
     const columns: string[] = [...model.DEFAULT_FIELDS];
     const selectableFields = model.SELECTABLE_FIELDS;
+    const invalidFields: string[] = [];
 
     for (const field of this.fields) {
       const segments = field.split(".");
@@ -29,22 +30,43 @@ class FieldParserService {
         const topField = segments[0];
         if (selectableFields.includes(topField)) {
           columns.push(topField);
+        } else {
+          invalidFields.push(field);
         }
       } else {
         let relationship = relationshipTree;
+        let currentModel: any = model;
+        let valid = true;
         for (let i = 0; i < segments.length; i++) {
-          const field = segments[i];
-          if (!relationship[field]) {
-            relationship[field] = i === segments.length - 1 ? true : {};
+          const seg = segments[i];
+          if (i < segments.length - 1) {
+            if (!currentModel.associations || !currentModel.associations[seg]) {
+              valid = false;
+              break;
+            }
+            currentModel = currentModel.associations[seg].target;
+            if (!relationship[seg]) {
+              relationship[seg] = {};
+            }
+            relationship = relationship[seg] as RelationshipTree;
+          } else {
+            if (
+              currentModel.SELECTABLE_FIELDS &&
+              currentModel.SELECTABLE_FIELDS.includes(seg)
+            ) {
+              relationship[seg] = true;
+            } else {
+              valid = false;
+            }
           }
-          if (relationship[field] !== true) {
-            relationship = relationship[field] as RelationshipTree;
-          }
+        }
+        if (!valid) {
+          invalidFields.push(field);
         }
       }
     }
 
-    return { columns, relationshipTree };
+    return { columns, relationshipTree, invalidFields };
   };
 
   buildSequelizeInclude = <M extends Model>(

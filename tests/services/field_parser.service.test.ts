@@ -1,8 +1,8 @@
 import { Model, ModelStatic } from "sequelize";
 
-import FieldParserService from "@/field_parser.service";
-import ModelStaticWithFields from "@/interfaces/model_fields.interface";
-import { RelationshipTree } from "@/types/model.relationship.tree.type";
+import FieldParserService from "../../src/field_parser.service";
+import ModelStaticWithFields from "../../src/interfaces/model_fields.interface";
+import { RelationshipTree } from "../../src/types/model.relationship.tree.type";
 
 describe("FieldParserService", () => {
   let service: FieldParserService;
@@ -39,6 +39,7 @@ describe("FieldParserService", () => {
 
       expect(result.columns).toEqual(["uuid", "name", "created_at"]);
       expect(result.relationshipTree).toEqual({});
+      expect(result.invalidFields).toEqual(["deleted_at"]);
     });
 
     it("should handle default fields", () => {
@@ -51,6 +52,7 @@ describe("FieldParserService", () => {
 
       expect(result.columns).toEqual(["uuid", "name", "created_at"]);
       expect(result.relationshipTree).toEqual({});
+      expect(result.invalidFields).toEqual([]);
     });
 
     it("should trim and ignore empty fields", () => {
@@ -63,10 +65,18 @@ describe("FieldParserService", () => {
 
       expect(result.columns).toEqual(["uuid", "name", "created_at"]);
       expect(result.relationshipTree).toEqual({});
+      expect(result.invalidFields).toEqual([]);
     });
 
     it("should build nested relationship tree", () => {
-      const mockModel = createMockModel({ DEFAULT_FIELDS: ["uuid"] });
+      // Mock model with 'status' association and selectable fields
+      const statusModel = createMockModel({ SELECTABLE_FIELDS: ["name", "created_at"] });
+      const mockModel = createMockModel({
+        DEFAULT_FIELDS: ["uuid"],
+        associations: {
+          status: { target: statusModel },
+        },
+      });
 
       const result = service.parseFields(
         "status.name,status.created_at",
@@ -80,10 +90,27 @@ describe("FieldParserService", () => {
           created_at: true,
         },
       });
+      expect(result.invalidFields).toEqual([]);
     });
 
     it("should support deeply nested fields", () => {
-      const mockModel = createMockModel();
+      // Mock deeply nested associations
+      const avatarModel = createMockModel({ SELECTABLE_FIELDS: ["url"] });
+      const profileModel = createMockModel({
+        associations: {
+          avatar: { target: avatarModel },
+        },
+      });
+      const userModel = createMockModel({
+        associations: {
+          profile: { target: profileModel },
+        },
+      });
+      const mockModel = createMockModel({
+        associations: {
+          user: { target: userModel },
+        },
+      });
 
       const result = service.parseFields("user.profile.avatar.url", mockModel);
 
@@ -97,6 +124,31 @@ describe("FieldParserService", () => {
           },
         },
       });
+      expect(result.invalidFields).toEqual([]);
+    });
+
+    it("should report invalid nested fields", () => {
+      const mockModel = createMockModel({
+        associations: {
+          status: {
+            target: createMockModel({
+              associations: {},
+              SELECTABLE_FIELDS: ["name"],
+            }),
+          },
+        },
+      });
+
+      // status.invalidField is not selectable
+      const result = service.parseFields("status.invalidField", mockModel);
+      expect(result.invalidFields).toEqual(["status.invalidField"]);
+    });
+
+    it("should report invalid relationship", () => {
+      const mockModel = createMockModel({});
+      // user.profile.avatar.url, but user association does not exist
+      const result = service.parseFields("user.profile.avatar.url", mockModel);
+      expect(result.invalidFields).toEqual(["user.profile.avatar.url"]);
     });
   });
 
