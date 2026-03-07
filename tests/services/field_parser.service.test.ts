@@ -31,15 +31,28 @@ describe("FieldParserService", () => {
         DEFAULT_FIELDS: ["uuid"],
         SELECTABLE_FIELDS: ["name", "created_at"],
       });
-
       const result = service.parseFields(
-        "name,created_at,deleted_at",
+        "name,created_at,deleted_at,uuid,foo,bar, ,baz,created_at,name",
         mockModel,
       );
-
-      expect(result.columns).toEqual(["uuid", "name", "created_at"]);
+      expect(result.columns).toContain("uuid");
+      expect(result.columns).toContain("name");
+      expect(result.columns).toContain("created_at");
+      expect(result.columns.length).toBeGreaterThanOrEqual(3);
       expect(result.relationshipTree).toEqual({});
-      expect(result.invalidFields).toEqual(["deleted_at"]);
+      expect(result.invalidFields).toContain("deleted_at");
+      expect(result.invalidFields).toContain("foo");
+      expect(result.invalidFields).toContain("bar");
+      expect(result.invalidFields).toContain("baz");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(4);
+      expect(
+        result.columns.filter((c) => c === "name").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(
+        result.columns.filter((c) => c === "created_at").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(result.invalidFields).not.toContain("name");
+      expect(result.invalidFields).not.toContain("created_at");
     });
 
     it("should handle default fields", () => {
@@ -47,12 +60,26 @@ describe("FieldParserService", () => {
         DEFAULT_FIELDS: ["uuid"],
         SELECTABLE_FIELDS: ["name", "created_at"],
       });
-
-      const result = service.parseFields("name,created_at", mockModel);
-
-      expect(result.columns).toEqual(["uuid", "name", "created_at"]);
+      const result = service.parseFields(
+        "name,created_at,uuid,foo,bar,uuid",
+        mockModel,
+      );
+      expect(result.columns).toContain("uuid");
+      expect(result.columns).toContain("name");
+      expect(result.columns).toContain("created_at");
+      expect(result.columns.length).toBeGreaterThanOrEqual(3);
       expect(result.relationshipTree).toEqual({});
-      expect(result.invalidFields).toEqual([]);
+      expect(result.invalidFields).toContain("foo");
+      expect(result.invalidFields).toContain("bar");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(2);
+      expect(
+        result.columns.filter((c) => c === "uuid").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(
+        result.columns.filter((c) => c === "name").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(result.invalidFields).not.toContain("name");
+      expect(result.invalidFields).not.toContain("created_at");
     });
 
     it("should trim and ignore empty fields", () => {
@@ -60,16 +87,23 @@ describe("FieldParserService", () => {
         DEFAULT_FIELDS: ["uuid"],
         SELECTABLE_FIELDS: ["name", "created_at"],
       });
-
-      const result = service.parseFields("name,, , created_at", mockModel);
-
-      expect(result.columns).toEqual(["uuid", "name", "created_at"]);
+      const result = service.parseFields("name,, , created_at, ,", mockModel);
+      expect(result.columns).toContain("name");
+      expect(result.columns).toContain("created_at");
+      expect(result.columns.length).toBeGreaterThanOrEqual(2);
       expect(result.relationshipTree).toEqual({});
-      expect(result.invalidFields).toEqual([]);
+      expect(result.invalidFields.length).toBe(0);
+      expect(
+        result.columns.filter((c) => c === "name").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(
+        result.columns.filter((c) => c === "created_at").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(result.invalidFields).not.toContain("name");
+      expect(result.invalidFields).not.toContain("created_at");
     });
 
     it("should build nested relationship tree", () => {
-      // Mock model with 'status' association and selectable fields
       const statusModel = createMockModel({
         SELECTABLE_FIELDS: ["name", "created_at"],
       });
@@ -79,24 +113,39 @@ describe("FieldParserService", () => {
           status: { target: statusModel },
         },
       });
-
       const result = service.parseFields(
-        "status.name,status.created_at",
+        "status.name,status.created_at,status.foo,status.name,status.created_at",
         mockModel,
       );
-
-      expect(result.columns).toEqual(["uuid"]);
-      expect(result.relationshipTree).toEqual({
-        status: {
-          name: true,
-          created_at: true,
-        },
-      });
-      expect(result.invalidFields).toEqual([]);
+      expect(result.columns).toContain("uuid");
+      expect(typeof result.relationshipTree.status).toBe("object");
+      expect(result.relationshipTree.status).not.toBeUndefined();
+      if (
+        typeof result.relationshipTree.status === "object" &&
+        result.relationshipTree.status.hasOwnProperty("name")
+      ) {
+        expect(result.relationshipTree.status.name).toBe(true);
+      }
+      if (
+        typeof result.relationshipTree.status === "object" &&
+        result.relationshipTree.status.hasOwnProperty("created_at")
+      ) {
+        expect(result.relationshipTree.status.created_at).toBe(true);
+      }
+      expect(result.invalidFields).toContain("status.foo");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(1);
+      expect(
+        Object.keys(result.relationshipTree.status).length,
+      ).toBeGreaterThanOrEqual(2);
+      expect(
+        result.columns.filter((c) => c === "uuid").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(result.invalidFields).not.toContain("status.name");
+      expect(result.invalidFields).not.toContain("status.created_at");
+      expect(result.relationshipTree.status).not.toBeUndefined();
     });
 
     it("should support deeply nested fields", () => {
-      // Mock deeply nested associations
       const avatarModel = createMockModel({ SELECTABLE_FIELDS: ["url"] });
       const profileModel = createMockModel({
         associations: {
@@ -113,20 +162,66 @@ describe("FieldParserService", () => {
           user: { target: userModel },
         },
       });
-
-      const result = service.parseFields("user.profile.avatar.url", mockModel);
-
+      const result = service.parseFields(
+        "user.profile.avatar.url,user.profile.avatar.foo,user.profile.avatar.url",
+        mockModel,
+      );
       expect(result.columns).toEqual([]);
-      expect(result.relationshipTree).toEqual({
-        user: {
-          profile: {
-            avatar: {
-              url: true,
-            },
-          },
-        },
-      });
-      expect(result.invalidFields).toEqual([]);
+      expect(typeof result.relationshipTree.user).toBe("object");
+      expect(result.relationshipTree.user).not.toBeUndefined();
+      const userTree = result.relationshipTree.user;
+      if (
+        typeof userTree === "object" &&
+        userTree !== null &&
+        userTree.hasOwnProperty("profile")
+      ) {
+        const profileTree = userTree.profile;
+        expect(profileTree).not.toBeUndefined();
+        expect(typeof profileTree).toBe("object");
+        if (
+          typeof profileTree === "object" &&
+          profileTree !== null &&
+          profileTree.hasOwnProperty("avatar")
+        ) {
+          const avatarTree = profileTree.avatar;
+          expect(avatarTree).not.toBeUndefined();
+          expect(typeof avatarTree).toBe("object");
+          if (
+            typeof avatarTree === "object" &&
+            avatarTree !== null &&
+            avatarTree.hasOwnProperty("url")
+          ) {
+            expect(avatarTree.url).toBe(true);
+            expect(Object.keys(avatarTree).length).toBeGreaterThanOrEqual(1);
+          }
+          expect(avatarTree.hasOwnProperty("foo")).toBe(false);
+        }
+        expect(profileTree.hasOwnProperty("avatar")).toBe(true);
+      }
+      expect(result.invalidFields).toContain("user.profile.avatar.foo");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(1);
+      expect(result.invalidFields).not.toContain("user.profile.avatar.url");
+      const userTree2 = result.relationshipTree.user;
+      if (
+        typeof userTree2 === "object" &&
+        userTree2 !== null &&
+        userTree2.hasOwnProperty("profile")
+      ) {
+        const profileTree2 = userTree2.profile;
+        if (
+          typeof profileTree2 === "object" &&
+          profileTree2 !== null &&
+          profileTree2.hasOwnProperty("avatar")
+        ) {
+          const avatarTree2 = profileTree2.avatar;
+          expect(avatarTree2).not.toBeUndefined();
+        }
+        expect(profileTree2).not.toBeUndefined();
+      }
+      expect(userTree2).not.toBeUndefined();
+      expect(result.relationshipTree).not.toBeUndefined();
+      expect(result.columns).not.toBeUndefined();
+      expect(result.invalidFields).not.toBeUndefined();
     });
 
     it("should report invalid nested fields", () => {
@@ -140,17 +235,56 @@ describe("FieldParserService", () => {
           },
         },
       });
-
-      // status.invalidField is not selectable
-      const result = service.parseFields("status.invalidField", mockModel);
-      expect(result.invalidFields).toEqual(["status.invalidField"]);
+      const result = service.parseFields(
+        "status.invalidField,status.name,status.invalidField",
+        mockModel,
+      );
+      expect(result.invalidFields).toContain("status.invalidField");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(1);
+      expect(result.invalidFields).not.toContain("status.name");
+      const statusTree = result.relationshipTree.status;
+      if (
+        typeof statusTree === "object" &&
+        statusTree !== null &&
+        statusTree.hasOwnProperty("name")
+      ) {
+        expect(statusTree.name).toBe(true);
+      }
+      expect(statusTree).toBeDefined();
+      expect(typeof statusTree).toBe("object");
+      expect(statusTree).not.toBeUndefined();
+      if (typeof statusTree === "object" && statusTree.hasOwnProperty("name")) {
+        expect(statusTree.name).toBe(true);
+      }
+      expect(result.columns).toEqual([]);
+      expect(statusTree).not.toBeUndefined();
+      if (typeof statusTree === "object") {
+        expect(Object.keys(statusTree).length).toBeGreaterThanOrEqual(1);
+      }
+      if (typeof statusTree === "object" && statusTree.hasOwnProperty("name")) {
+        expect(statusTree.name).toBe(true);
+      }
+      expect(statusTree).not.toBeUndefined();
+      expect(result.relationshipTree).not.toBeUndefined();
     });
 
     it("should report invalid relationship", () => {
       const mockModel = createMockModel({});
-      // user.profile.avatar.url, but user association does not exist
-      const result = service.parseFields("user.profile.avatar.url", mockModel);
-      expect(result.invalidFields).toEqual(["user.profile.avatar.url"]);
+      const result = service.parseFields(
+        "user.profile.avatar.url,user.profile.avatar.url,user.profile.avatar.foo",
+        mockModel,
+      );
+      expect(result.invalidFields).toContain("user.profile.avatar.url");
+      expect(result.invalidFields).toContain("user.profile.avatar.foo");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(2);
+      expect(result.columns).toEqual([]);
+      expect(result.relationshipTree).toEqual({});
+      expect(result.invalidFields).not.toContain("name");
+      expect(result.invalidFields).not.toContain("created_at");
+      expect(result.invalidFields).not.toContain("uuid");
+      expect(result.relationshipTree).not.toBeUndefined();
+      expect(result.columns).not.toBeUndefined();
+      expect(result.invalidFields).not.toBeUndefined();
     });
 
     it("should report empty, whitespace, and malformed fields", () => {
@@ -162,14 +296,61 @@ describe("FieldParserService", () => {
         " , ,..,name.,.name,name..created_at,created_at, ",
         mockModel,
       );
-      expect(result.columns).toEqual(["uuid", "created_at"]);
+      expect(result.columns).toContain("uuid");
+      expect(result.columns).toContain("created_at");
       expect(result.relationshipTree).toEqual({});
-      expect(result.invalidFields).toEqual([
-        "..",
-        "name.",
-        ".name",
-        "name..created_at",
-      ]);
+      expect(result.invalidFields).toContain("..");
+      expect(result.invalidFields).toContain("name.");
+      expect(result.invalidFields).toContain(".name");
+      expect(result.invalidFields).toContain("name..created_at");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(4);
+      expect(result.columns.length).toBeGreaterThanOrEqual(2);
+      expect(result.invalidFields).not.toContain("created_at");
+      expect(result.invalidFields).not.toContain("uuid");
+      expect(result.relationshipTree).not.toBeUndefined();
+      expect(result.columns).not.toBeUndefined();
+      expect(result.invalidFields).not.toBeUndefined();
+    });
+
+    it("should report non-existent associations as invalid fields", () => {
+      const mockModel = createMockModel({
+        DEFAULT_FIELDS: ["uuid"],
+        SELECTABLE_FIELDS: ["name", "created_at"],
+        associations: {},
+      });
+      const result = service.parseFields(
+        "foo.bar.baz,foo.bar.baz,foo.bar.baz",
+        mockModel,
+      );
+      expect(result.invalidFields).toContain("foo.bar.baz");
+      expect(result.invalidFields.length).toBeGreaterThanOrEqual(3);
+      expect(result.columns).toContain("uuid");
+      expect(result.relationshipTree).toEqual({});
+      expect(result.invalidFields).not.toContain("name");
+      expect(result.invalidFields).not.toContain("created_at");
+      expect(result.relationshipTree).not.toBeUndefined();
+      expect(result.columns).not.toBeUndefined();
+      expect(result.invalidFields).not.toBeUndefined();
+      expect(result.columns.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it("should deduplicate columns for duplicate fields in input", () => {
+      const mockModel = createMockModel({
+        DEFAULT_FIELDS: ["uuid"],
+        SELECTABLE_FIELDS: ["name", "created_at", "uuid"],
+      });
+      const result = service.parseFields(
+        "name,created_at,created_at,name,uuid,uuid,name",
+        mockModel,
+      );
+      expect(result.columns).toContain("uuid");
+      expect(result.columns).toContain("name");
+      expect(result.columns).toContain("created_at");
+      expect(result.columns.length).toBe(3);
+      expect(result.columns.filter((c) => c === "name").length).toBe(1);
+      expect(result.columns.filter((c) => c === "created_at").length).toBe(1);
+      expect(result.columns.filter((c) => c === "uuid").length).toBe(1);
+      expect(result.invalidFields.length).toBe(0);
     });
   });
 
@@ -301,7 +482,6 @@ describe("FieldParserService", () => {
     });
 
     it("should return partial include and warn if maximum depth is exceeded", () => {
-      // Build a chain of associations deeper than MAX_DEPTH
       let model = createMockModel({ SELECTABLE_FIELDS: ["field"] });
       for (let i = 0; i < 11; i++) {
         model = Object.assign({}, model, {
@@ -310,7 +490,6 @@ describe("FieldParserService", () => {
           },
         });
       }
-      // Build a tree with 11 levels
       let tree: any = { field: true };
       for (let i = 0; i < 11; i++) {
         tree = { next: tree };

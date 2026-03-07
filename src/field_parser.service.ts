@@ -26,7 +26,12 @@ class FieldParserService {
 
     for (const field of this.fields) {
       // Basic validation to catch empty fields, fields with only whitespace, and invalid dot usage
-      if (field === "" || /^\s*$/.test(field) || /\.\./.test(field) || /^\.|\.$/.test(field)) {
+      if (
+        field === "" ||
+        /^\s*$/.test(field) ||
+        /\.\./.test(field) ||
+        /^\.|\.$/.test(field)
+      ) {
         invalidFields.push(field);
         continue;
       }
@@ -71,7 +76,8 @@ class FieldParserService {
       }
     }
 
-    return { columns, relationshipTree, invalidFields };
+    const uniqueColumns = Array.from(new Set(columns));
+    return { columns: uniqueColumns, relationshipTree, invalidFields };
   };
 
   buildSequelizeInclude = <M extends Model>(

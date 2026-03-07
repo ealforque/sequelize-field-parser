@@ -17,6 +17,7 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 - Handles maximum relationship depth (default: 10)
 - Detects and prevents circular relationships
 - Handles malformed input (empty, whitespace, consecutive dots, leading/trailing dots)
+- **Deduplicates columns:** Duplicate fields in the input string will not result in duplicate entries in the `columns` array
 
 ## Installation
 
@@ -54,10 +55,8 @@ if (invalidFields.length > 0) {
 
 // Example: Handling malformed input
 const malformedQuery = "name.,.name,name..created_at,created_at";
-const { columns: malformedColumns, invalidFields: malformedInvalid } = parser.parseFields(
-  malformedQuery,
-  Task,
-);
+const { columns: malformedColumns, invalidFields: malformedInvalid } =
+  parser.parseFields(malformedQuery, Task);
 console.log("Malformed columns:", malformedColumns); // valid fields only
 console.warn("Malformed fields:", malformedInvalid); // ["name.", ".name", "name..created_at"]
 
