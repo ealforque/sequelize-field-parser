@@ -14,7 +14,7 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 - **Parse Sequelize model fields and relationships:** Easily extract and validate fields and associations from models
 - **Generate field trees for complex models:** Build nested relationship trees for Sequelize includes
 - **Type-safe interfaces and types:** All parsing and tree generation is type-safe
-- **Easy integration with MySQL via Sequelize:** Works seamlessly with Sequelize ORM
+- **Easy integration with Sequelize:** Works seamlessly with Sequelize ORM
 - **Test-driven development with Jest:** Comprehensive test suite for robust behavior
 - **Handles maximum relationship depth (default: 10):** Prevents runaway includes and logs warnings
 - **Detects and prevents circular relationships:** Safely handles circular model associations
@@ -36,14 +36,48 @@ import FieldParserService from "./src/field_parser.service";
 import SomeModel from "./models/SomeModel";
 
 const parser = new FieldParserService();
-const result = parser.parseFields("id,name,profile.email", SomeModel);
+const result = parser.parseFields(
+  "id,name,profile.email,profile.address.zip",
+  SomeModel,
+);
 console.log(result);
 /*
 {
   columns: ['id', 'name'],
-  relationshipTree: { profile: { email: true } },
+  relationshipTree: {
+    profile: {
+      email: true,
+      address: {
+        zip: true
+      }
+    }
+  },
   invalidFields: []
 }
+*/
+
+// To build the Sequelize include array for multi-level relationships:
+const include = parser.buildSequelizeInclude(
+  result.relationshipTree,
+  SomeModel,
+);
+console.log(include);
+/*
+[
+  {
+    model: ProfileModel,
+    as: 'profile',
+    attributes: ['email'],
+    include: [
+      {
+        model: AddressModel,
+        as: 'address',
+        attributes: ['zip'],
+        include: []
+      }
+    ]
+  }
+]
 */
 ```
 

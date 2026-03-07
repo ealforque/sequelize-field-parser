@@ -1,14 +1,22 @@
 {
   "name": "@ealforque/sequelize-field-parser",
-  "version": "1.0.8",
+  "description": "TypeScript utility for parsing fields and relationships in Sequelize models, generating include trees for queries.",
+  "author": "Eric Alforque <eric.alforque@gmail.com>",
+  "version": "1.0.11",
   "main": "dist/field_parser.service.js",
   "types": "dist/field_parser.service.d.ts",
   "files": [
     "dist",
-    "package-lock.json",
     "README.md",
     "SECURITY.md"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ealforque/sequelize-field-parser.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ealforque/sequelize-field-parser/issues"
+  },
   "scripts": {
     "build": "rm -rf dist && tsc",
     "test": "jest --clearCache && jest --coverage --detectOpenHandles",
@@ -19,10 +27,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "sequelize": "6.32.1"
+  "peerDependencies": {
+    "sequelize": ">=6"
   },
   "devDependencies": {
+    "sequelize": "6.32.1",
     "@types/jest": "29.5.14",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "10.1.3",
@@ -38,5 +47,14 @@
     "typescript": "5.8.3",
     "typescript-eslint": "8.32.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": [
+    "sequelize",
+    "field parser",
+    "typescript",
+    "orm",
+    "include",
+    "relationships",
+    "models"
+  ]
 }
