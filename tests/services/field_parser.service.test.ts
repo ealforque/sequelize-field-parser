@@ -616,6 +616,40 @@ describe("FieldParserService", () => {
       );
       console.warn = originalWarn;
     });
+
+    it("should warn and use empty attributes if no attributes selected and no DEFAULT_FIELDS", () => {
+      const mockModel = createMockModel({
+        associations: {
+          status: {
+            target: { SELECTABLE_FIELDS: [] }, // No DEFAULT_FIELDS
+          },
+        },
+      });
+      const tree = {
+        status: {
+          invalid_field: true,
+        },
+      };
+      const originalWarn = console.warn;
+      const warnMock = jest.fn();
+      console.warn = warnMock;
+      const result = service.buildSequelizeInclude(
+        tree as RelationshipTree,
+        mockModel,
+      );
+      expect(result).toEqual([
+        {
+          model: expect.anything(),
+          as: "status",
+          attributes: [],
+          include: [],
+        },
+      ]);
+      expect(warnMock).toHaveBeenCalledWith(
+        "FieldParserService: No attributes selected and no DEFAULT_FIELDS available for relationship 'status'. Attributes array will be empty.",
+      );
+      console.warn = originalWarn;
+    });
   });
 
   describe("FieldParserService constructor", () => {

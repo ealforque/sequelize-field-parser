@@ -172,3 +172,34 @@ Warning: FieldParserService: Attribute 'invalid_field' in relationship 'status' 
 ]
 */
 ```
+
+### Empty Relationship Attributes (No DEFAULT_FIELDS)
+
+If a relationship is specified but no attributes are selected and the related model does not define `DEFAULT_FIELDS`, a warning is logged and the attributes array will be empty.
+
+```typescript
+const parser = new FieldParserService();
+const tree = {
+  status: {}, // No attributes selected
+};
+const mockModel = {
+  associations: {
+    status: {
+      target: { SELECTABLE_FIELDS: [] }, // No DEFAULT_FIELDS
+    },
+  },
+};
+const result = parser.buildSequelizeInclude(tree, mockModel);
+console.log(result);
+/*
+Warning: FieldParserService: No attributes selected and no DEFAULT_FIELDS available for relationship 'status'. Attributes array will be empty.
+[
+  {
+    model: { SELECTABLE_FIELDS: [] },
+    as: "status",
+    attributes: [],
+    include: [],
+  },
+]
+*/
+```

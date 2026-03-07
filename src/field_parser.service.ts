@@ -159,10 +159,21 @@ class FieldParserService {
           return isSelectable;
         });
 
+        let attributesToUse = filteredLeafAttributes;
+        if (attributesToUse.length === 0) {
+          if (Array.isArray(currentModel.DEFAULT_FIELDS)) {
+            attributesToUse = [...currentModel.DEFAULT_FIELDS];
+          } else {
+            console.warn(
+              `FieldParserService: No attributes selected and no DEFAULT_FIELDS available for relationship '${relation}'. Attributes array will be empty.`,
+            );
+          }
+        }
+
         return {
           model: currentModel,
           as: relation,
-          attributes: filteredLeafAttributes,
+          attributes: attributesToUse,
           include: deeperIncludes,
         };
       },
