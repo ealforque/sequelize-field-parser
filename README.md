@@ -11,9 +11,12 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 
 - Parse Sequelize model fields and relationships
 - Generate field trees for complex models
+- Type-safe interfaces and types
+- Easy integration with MySQL via Sequelize
+- Test-driven development with Jest
 - Handles maximum relationship depth (default: 10)
 - Detects and prevents circular relationships
-- Test-driven development with Jest
+- Handles malformed input (empty, whitespace, consecutive dots, leading/trailing dots)
 
 ## Installation
 
@@ -48,6 +51,15 @@ const include = parser.buildSequelizeInclude(relationshipTree, Task);
 if (invalidFields.length > 0) {
   console.warn("Invalid fields:", invalidFields);
 }
+
+// Example: Handling malformed input
+const malformedQuery = "name.,.name,name..created_at,created_at";
+const { columns: malformedColumns, invalidFields: malformedInvalid } = parser.parseFields(
+  malformedQuery,
+  Task,
+);
+console.log("Malformed columns:", malformedColumns); // valid fields only
+console.warn("Malformed fields:", malformedInvalid); // ["name.", ".name", "name..created_at"]
 
 // Example: Handling maximum depth and circular relationships
 // If the relationship tree is too deep or circular, a warning will be logged and the include will be truncated.

@@ -152,6 +152,25 @@ describe("FieldParserService", () => {
       const result = service.parseFields("user.profile.avatar.url", mockModel);
       expect(result.invalidFields).toEqual(["user.profile.avatar.url"]);
     });
+
+    it("should report empty, whitespace, and malformed fields", () => {
+      const mockModel = createMockModel({
+        DEFAULT_FIELDS: ["uuid"],
+        SELECTABLE_FIELDS: ["name", "created_at"],
+      });
+      const result = service.parseFields(
+        " , ,..,name.,.name,name..created_at,created_at, ",
+        mockModel,
+      );
+      expect(result.columns).toEqual(["uuid", "created_at"]);
+      expect(result.relationshipTree).toEqual({});
+      expect(result.invalidFields).toEqual([
+        "..",
+        "name.",
+        ".name",
+        "name..created_at",
+      ]);
+    });
   });
 
   describe("buildSequelizeInclude()", () => {

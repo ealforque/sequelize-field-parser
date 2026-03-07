@@ -25,6 +25,11 @@ class FieldParserService {
     const invalidFields: string[] = [];
 
     for (const field of this.fields) {
+      // Basic validation to catch empty fields, fields with only whitespace, and invalid dot usage
+      if (field === "" || /^\s*$/.test(field) || /\.\./.test(field) || /^\.|\.$/.test(field)) {
+        invalidFields.push(field);
+        continue;
+      }
       const segments = field.split(".");
       if (segments.length === 1) {
         const topField = segments[0];
