@@ -72,7 +72,20 @@ class FieldParserService {
   buildSequelizeInclude = <M extends Model>(
     tree: RelationshipTree,
     model: ModelStatic<M>,
+    depth = 0,
+    visitedModels: Set<any> = new Set(),
   ): IncludeOptions[] => {
+    const MAX_DEPTH = 10;
+    if (depth > MAX_DEPTH) {
+      console.warn("Maximum include depth exceeded.");
+      return [];
+    }
+    if (visitedModels.has(model)) {
+      console.warn("Circular relationship detected.");
+      return [];
+    }
+    visitedModels.add(model);
+
     const includeOptions: IncludeOptions[] = Object.entries(tree).flatMap(
       ([relation, nested]) => {
         const relationship = model.associations?.[relation];
@@ -93,6 +106,8 @@ class FieldParserService {
         const deeperIncludes = this.buildSequelizeInclude(
           nested as RelationshipTree,
           currentModel,
+          depth + 1,
+          visitedModels,
         );
         const leafAttributes = Object.entries(nested)
           .filter(([, value]) => value === true)
@@ -108,6 +123,7 @@ class FieldParserService {
       },
     );
 
+    visitedModels.delete(model);
     return includeOptions;
   };
 }

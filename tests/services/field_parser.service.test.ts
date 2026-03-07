@@ -1,4 +1,4 @@
-import { Model, ModelStatic } from "sequelize";
+import { IncludeOptions, Model, ModelStatic } from "sequelize";
 
 import FieldParserService from "../../src/field_parser.service";
 import ModelStaticWithFields from "../../src/interfaces/model_fields.interface";
@@ -70,7 +70,9 @@ describe("FieldParserService", () => {
 
     it("should build nested relationship tree", () => {
       // Mock model with 'status' association and selectable fields
-      const statusModel = createMockModel({ SELECTABLE_FIELDS: ["name", "created_at"] });
+      const statusModel = createMockModel({
+        SELECTABLE_FIELDS: ["name", "created_at"],
+      });
       const mockModel = createMockModel({
         DEFAULT_FIELDS: ["uuid"],
         associations: {
@@ -277,6 +279,59 @@ describe("FieldParserService", () => {
           attributes: [],
         },
       ]);
+    });
+
+    it("should return partial include and warn if maximum depth is exceeded", () => {
+      // Build a chain of associations deeper than MAX_DEPTH
+      let model = createMockModel({ SELECTABLE_FIELDS: ["field"] });
+      for (let i = 0; i < 11; i++) {
+        model = Object.assign({}, model, {
+          associations: {
+            next: { target: model },
+          },
+        });
+      }
+      // Build a tree with 11 levels
+      let tree: any = { field: true };
+      for (let i = 0; i < 11; i++) {
+        tree = { next: tree };
+      }
+      const originalWarn = console.warn;
+      const warnMock = jest.fn();
+      console.warn = warnMock;
+      const result = service.buildSequelizeInclude(
+        tree as RelationshipTree,
+        model,
+      );
+      expect(warnMock).toHaveBeenCalledWith("Maximum include depth exceeded.");
+      let includes = result;
+      for (let i = 0; i < 10; i++) {
+        expect(includes.length).toBeGreaterThan(0);
+        includes = (includes[0].include ?? []) as IncludeOptions[];
+      }
+      expect(includes.length).toBe(1);
+      expect(includes[0].attributes).toEqual(["field"]);
+      expect(includes[0].include).toEqual([]);
+      console.warn = originalWarn;
+    });
+
+    it("should return partial include and warn if circular relationship is detected", () => {
+      const circularModel = createMockModel({ SELECTABLE_FIELDS: ["field"] });
+      const mutableModel: any = circularModel;
+      mutableModel.associations = {
+        self: { target: mutableModel },
+      };
+      const tree = { self: { self: { self: { field: true } } } };
+      const originalWarn = console.warn;
+      const warnMock = jest.fn();
+      console.warn = warnMock;
+      const result = service.buildSequelizeInclude(
+        tree as RelationshipTree,
+        mutableModel,
+      );
+      expect(warnMock).toHaveBeenCalledWith("Circular relationship detected.");
+      expect(result[0].include).toEqual([]);
+      console.warn = originalWarn;
     });
   });
 });

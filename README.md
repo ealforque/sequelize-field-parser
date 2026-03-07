@@ -11,8 +11,8 @@ A TypeScript utility for Sequelize models that lets users specify fields to incl
 
 - Parse Sequelize model fields and relationships
 - Generate field trees for complex models
-- Type-safe interfaces and types
-- Easy integration with MySQL via Sequelize
+- Handles maximum relationship depth (default: 10)
+- Detects and prevents circular relationships
 - Test-driven development with Jest
 
 ## Installation
@@ -32,10 +32,14 @@ import Task from "./models/task.model"; // Example Sequelize model
 const parser = new FieldParserService();
 
 // Example query parameter from API
-const queryParams = "status.uuid,status.name,status.category.uuid,status.category.name";
+const queryParams =
+  "status.uuid,status.name,status.category.uuid,status.category.name";
 
 // Parse fields and build relationship tree
-const { columns, relationshipTree, invalidFields } = parser.parseFields(queryParams, Task);
+const { columns, relationshipTree, invalidFields } = parser.parseFields(
+  queryParams,
+  Task,
+);
 
 // Build the sequelize include array
 const include = parser.buildSequelizeInclude(relationshipTree, Task);
@@ -45,27 +49,43 @@ if (invalidFields.length > 0) {
   console.warn("Invalid fields:", invalidFields);
 }
 
+// Example: Handling maximum depth and circular relationships
+// If the relationship tree is too deep or circular, a warning will be logged and the include will be truncated.
+const deepQuery = "a.b.c.d.e.f.g.h.i.j.k.field"; // 11 levels deep
+const { relationshipTree: deepTree } = parser.parseFields(deepQuery, Task);
+const deepInclude = parser.buildSequelizeInclude(deepTree, Task);
+// Will log: "Maximum include depth exceeded."
+
+const circularQuery = "self.self.self.field";
+const { relationshipTree: circularTree } = parser.parseFields(
+  circularQuery,
+  Task,
+);
+const circularInclude = parser.buildSequelizeInclude(circularTree, Task);
+// Will log: "Circular relationship detected."
+
 // Use in a Sequelize query
 const tasks = await Task.findAll({
   attributes: columns,
   include,
 });
+```
 
-// Example output for include:
-/*
+Example output for include:
+
+```json
 [
   {
-    model: Status,
-    as: 'status',
-    attributes: ['uuid', 'name'],
-    include: [
+    "model": "Status",
+    "as": "status",
+    "attributes": ["uuid", "name"],
+    "include": [
       {
-        model: Category,
-        as: 'category',
-        attributes: ['uuid', 'name'],
+        "model": "Category",
+        "as": "category",
+        "attributes": ["uuid", "name"]
       }
     ]
   }
 ]
-*/
 ```
