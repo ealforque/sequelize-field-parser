@@ -262,9 +262,9 @@ Warning: FieldParserService: Association alias 'profile' does not exist in model
 */
 ```
 
-## Supply Chain Security
+## Dependency Audit
 
-This package runs `npm audit` in its CI workflow to check for vulnerabilities in dependencies before publishing. Automated dependency updates and vulnerability checks are enabled for maximum supply chain security.
+This package runs `npm audit` in its CI workflow to check for vulnerabilities in dependencies before publishing. Automated dependency updates and vulnerability checks are enabled.
 
 Example GitHub Actions step:
 
