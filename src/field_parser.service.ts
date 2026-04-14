@@ -15,7 +15,7 @@ class FieldParserService {
     model: ModelStaticWithFields<M>,
   ) => {
     if (
-      typeof model !== "object" ||
+      (typeof model !== "object" && typeof model !== "function") ||
       model === null ||
       !("associations" in model) ||
       typeof (model as any).associations !== "object"

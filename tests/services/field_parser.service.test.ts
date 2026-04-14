@@ -403,6 +403,23 @@ describe("FieldParserService", () => {
       expect(result3.relationshipTree).toEqual({});
     });
 
+    it("should handle class-based (function-type) model input like real Sequelize models", () => {
+      class MockSequelizeModel {
+        static associations = {};
+        static DEFAULT_FIELDS = ["uuid"];
+        static SELECTABLE_FIELDS = ["name", "created_at"];
+      }
+      const result = service.parseFields(
+        "name,created_at,foo",
+        MockSequelizeModel as any,
+      );
+      expect(result.columns).toContain("uuid");
+      expect(result.columns).toContain("name");
+      expect(result.columns).toContain("created_at");
+      expect(result.invalidFields).toContain("foo");
+      expect(result.invalidFields.length).toBe(1);
+    });
+
     it("should warn when association alias does not exist in model", () => {
       const mockModel = createMockModel({
         associations: {}, // No 'profile' association
