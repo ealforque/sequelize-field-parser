@@ -44,7 +44,7 @@
     "supertest": "7.2.2",
     "@swc/jest": "0.2.39",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "typescript-eslint": "8.58.2"
   },
   "license": "MIT",
